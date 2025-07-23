@@ -13,26 +13,27 @@ document.getElementById("formulario-intercambio").addEventListener("submit", asy
     return;
   }
 
-  const reader = new FileReader();
-  reader.onload = function() {
-    const base64Image = reader.result;
+  const formData = new FormData();
+  formData.append("nombre", nombre);
+  formData.append("descripcion", descripcion);
+  formData.append("deseo", deseo);
+  formData.append("contacto", contacto);
+  formData.append("imagen", imagenInput.files[0]);
 
-    const nuevoIntercambio = {
-      nombre,
-      descripcion,
-      deseo,
-      contacto,
-      imagen: base64Image,
-      fecha: new Date().toISOString()
-    };
+  try {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbywKWD0Z8E-vYrU6rEeb3bd485j4jrt0I6s3LRe4439523G9cqYHHrv8VZ1kWbT6BtC/exec", {
+      method: "POST",
+      body: formData
+    });
 
-    const intercambios = JSON.parse(localStorage.getItem("intercambios") || "[]");
-    intercambios.push(nuevoIntercambio);
-    localStorage.setItem("intercambios", JSON.stringify(intercambios));
-
-    mensaje.innerHTML = `<p style="color:green;">✅ ¡Intercambio publicado exitosamente!</p>`;
-    document.getElementById("formulario-intercambio").reset();
-  };
-
-  reader.readAsDataURL(imagenInput.files[0]);
+    if (response.ok) {
+      mensaje.innerHTML = `<p style="color:green;">✅ ¡Intercambio publicado exitosamente!</p>`;
+      document.getElementById("formulario-intercambio").reset();
+    } else {
+      mensaje.innerHTML = `<p style="color:red;">❌ Error al enviar. Intenta nuevamente.</p>`;
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    mensaje.innerHTML = `<p style="color:red;">❌ Error de red. Revisa tu conexión o vuelve a intentar.</p>`;
+  }
 });
