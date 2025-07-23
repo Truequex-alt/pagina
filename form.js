@@ -21,8 +21,8 @@ document.getElementById("formulario-intercambio").addEventListener("submit", asy
   formData.append("imagen", imagenInput.files[0]);
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbywKWD0Z8E-vYrU6rEeb3bd485j4jrt0I6s3LRe4439523G9cqYHHrv8VZ1kWbT6BtC/exec", {
-      method: "POST",
+    const response = await fetch("https://script.google.com/macros/s/AKfycbxw02ZQPWGv0camXsi3GvN_T1jZLo-xLr_nq99iTSZ7qhBBBTHO5yN67dfJg52BT4dJ/exec", {
+    method: "POST",
       body: formData
     });
 
