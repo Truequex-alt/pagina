@@ -23,24 +23,25 @@
   <main class="form-section">
     <h1>📤 Publica tu Objeto para Intercambio</h1>
     <form id="formulario-intercambio">
-      <label for="nombre">Nombre del objeto:</label>
-      <input type="text" id="nombre" required>
+  <label for="nombre">Nombre del objeto:</label>
+  <input type="text" id="nombre" name="nombre" required>
 
-      <label for="descripcion">Descripción (Ingresa estado del objeto, precio valuado):</label>
-      <textarea id="descripcion" rows="4" required></textarea>
+  <label for="descripcion">Descripción:</label>
+  <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
 
-      <label for="deseo">¿Qué deseas a cambio?</label>
-      <input type="text" id="deseo" required>
+  <label for="deseo">¿Qué deseas a cambio?</label>
+  <input type="text" id="deseo" name="deseo" required>
 
-      <label for="imagen">Imagen del objeto:</label>
-      <input type="file" id="imagen" accept="image/*">
+  <label for="imagen">Imagen del objeto:</label>
+  <input type="file" id="imagen" name="imagen" accept="image/*" required>
 
-      <label for="contacto">Tu WhatsApp o correo:</label>
-      <input type="text" id="contacto" required>
+  <label for="contacto">Tu WhatsApp o correo:</label>
+  <input type="text" id="contacto" name="contacto" required>
 
-      <button type="submit">Publicar Intercambio</button>
-    </form>
-    <div id="mensaje"></div>
+  <button type="submit">Publicar Intercambio</button>
+</form>
+<div id="mensaje"></div>
+
   </main>
 
   <script src="form.js"></script>
