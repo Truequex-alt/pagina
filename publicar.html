@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publicar Intercambio | TruekeX</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">TruekeX</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="intercambios.html">Intercambios</a></li>
+        <li><a href="publicar.html">Publicar</a></li>
+        <li><a href="sobre.html">Sobre Nosotros</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="form-section">
+    <h1>📤 Publica tu Objeto para Intercambio</h1>
+    <form id="formulario-intercambio">
+      <label for="nombre">Nombre del objeto:</label>
+      <input type="text" id="nombre" required>
+
+      <label for="descripcion">Descripción (Ingresa estado del objeto, precio valuado):</label>
+      <textarea id="descripcion" rows="4" required></textarea>
+
+      <label for="deseo">¿Qué deseas a cambio?</label>
+      <input type="text" id="deseo" required>
+
+      <label for="imagen">Imagen del objeto:</label>
+      <input type="file" id="imagen" accept="image/*">
+
+      <label for="contacto">Tu WhatsApp o correo:</label>
+      <input type="text" id="contacto" required>
+
+      <button type="submit">Publicar Intercambio</button>
+    </form>
+    <div id="mensaje"></div>
+  </main>
+
+  <script src="form.js"></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intercambios Activos | TruekeX</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .busqueda-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+  
+    .busqueda-input {
+      padding: 10px;
+      width: 80%;
+      max-width: 500px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+  
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+  
+    .card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 360px; /* 🔧 Tamaño uniforme */
+    }
+  
+    .card img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3; /* 🔧 Relación fija */
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+  
+    .card h2 {
+      font-size: 1.2rem;
+      margin: 10px 0 5px;
+    }
+  
+    .card p {
+      font-size: 0.95rem;
+      margin: 4px 0;
+    }
+  
+    .card:hover {
+      transform: scale(1.02);
+    }
+    .filtros {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .orden-select {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  </style>  
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">TruekeX</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="intercambios.html">Intercambios</a></li>
+        <li><a href="publicar.html">Publicar</a></li>
+        <li><a href="sobre.html">Sobre Nosotros</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="intercambios-section">
+    <h1>🔁 Intercambios Activos</h1>
+    <div class="filtros">
+      <input
+        type="text"
+        id="busqueda"
+        class="busqueda-input"
+        placeholder="🔍 Buscar por nombre o lo que desean a cambio..."
+      />
+      <select id="orden" class="orden-select">
+        <option value="recientes">🕒 Más recientes primero</option>
+        <option value="antiguos">📜 Más antiguos primero</option>
+        <option value="alfabetico">🔤 Alfabético (A-Z)</option>
+      </select>
+    </div>
+    <div class="card-grid" id="contenedor-intercambios">
+      <!-- Las tarjetas se insertan aquí dinámicamente -->
+    </div>
+  </main>
+
+  <script>
+    const contenedor = document.getElementById("contenedor-intercambios");
+    const busquedaInput = document.getElementById("busqueda");
+    const ordenSelect = document.getElementById("orden");
+  
+    const tarjetasFijas = [
+      {
+        imagen: "img/peluche.jpg",
+        nombre: "Peluche Pikachu",
+        deseo: "Libro juvenil",
+        fecha: "2024-01-01T12:00:00"
+      },
+      {
+        imagen: "img/celular.jpg",
+        nombre: "Celular Samsung usado",
+        deseo: "Tablet o smartwatch",
+        fecha: "2024-01-02T12:00:00"
+      },
+      {
+        imagen: "img/cuaderno.jpg",
+        nombre: "Cuaderno artesanal",
+        deseo: "Lapiceros de colores",
+        fecha: "2024-01-03T12:00:00"
+      }
+    ];
+  
+    let todasLasTarjetas = [];
+  
+    function crearTarjeta(obj) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${obj.imagen}" alt="${obj.nombre}" />
+        <h2>${obj.nombre}</h2>
+        ${obj.descripcion ? `<p><strong>Descripción:</strong> ${obj.descripcion}</p>` : ""}
+        <p><strong>Deseo:</strong> ${obj.deseo}</p>
+        ${obj.contacto ? `<p><strong>Contacto:</strong> ${obj.contacto}</p>` : ""}
+      `;
+      return card;
+    }
+  
+    function mostrarTarjetas(filtro = "", orden = "recientes") {
+      contenedor.innerHTML = "";
+      const filtroMin = filtro.toLowerCase();
+  
+      let resultados = todasLasTarjetas.filter(obj => {
+        const texto = (obj.nombre + " " + obj.deseo).toLowerCase();
+        return texto.includes(filtroMin);
+      });
+  
+      if (orden === "recientes") {
+        resultados.sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
+      } else if (orden === "antiguos") {
+        resultados.sort((a, b) => new Date(a.fecha || 0) - new Date(b.fecha || 0));
+      } else if (orden === "alfabetico") {
+        resultados.sort((a, b) => a.nombre.localeCompare(b.nombre));
+      }
+  
+      if (resultados.length === 0) {
+        contenedor.innerHTML = `
+          <div style="text-align: center; width: 100%; grid-column: 1 / -1; padding: 40px 10px;">
+            <p style="font-size: 1.3rem; color: #444;">❌ No se encontraron intercambios con ese criterio.</p>
+            <button id="ver-todos" style="padding: 10px 20px; font-size: 1rem; border: none; border-radius: 8px; background-color: #007BFF; color: white; cursor: pointer;">
+              🔄 Ver todos los intercambios
+            </button>
+          </div>
+        `;
+        document.getElementById("ver-todos").addEventListener("click", () => {
+          busquedaInput.value = "";
+          mostrarTarjetas();
+        });
+        return;
+      }
+  
+      resultados.forEach(obj => contenedor.appendChild(crearTarjeta(obj)));
+    }
+  
+    async function cargarIntercambiosDrive() {
+      try {
+        const respuesta = await fetch("https://script.google.com/macros/s/AKfycbx5SSk7pBRe8mAbWZHJZHapn806UBwao20SXGZCB4fD8k-pvsUFJwqqwiCao_9gl5nH/exec");
+        const datosDrive = await respuesta.json();
+  
+        // Combinar datos drive + tarjetas fijas
+        todasLasTarjetas = [...tarjetasFijas, ...datosDrive];
+  
+        mostrarTarjetas();
+  
+        // Escuchar filtros después de tener los datos
+        busquedaInput.addEventListener("input", () => {
+          mostrarTarjetas(busquedaInput.value, ordenSelect.value);
+        });
+  
+        ordenSelect.addEventListener("change", () => {
+          mostrarTarjetas(busquedaInput.value, ordenSelect.value);
+        });
+      } catch (error) {
+        console.error("❌ Error al cargar los intercambios:", error);
+        contenedor.innerHTML = `<p style="color:red; text-align:center;">❌ Error al cargar los intercambios desde Drive.</p>`;
+      }
+    }
+  
+    // Iniciar carga
+    cargarIntercambiosDrive();
+  </script>  
+</body>
+</html>
